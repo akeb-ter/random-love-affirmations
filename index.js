@@ -50,7 +50,6 @@ const affirmations = [
   { "lang": "filipino", "affirmation": "Ikaw ang smile ko sa bad days." },
   { "lang": "filipino", "affirmation": "Kung may bookmark ang puso, ikaw ang naka-save." },
   { "lang": "filipino", "affirmation": "Ikaw ang pinaka-sweet kong desisyon." },
-
   { "lang": "bisaya", "affirmation": "Kung cellphone ko ikaw, dili gyud tika i-lowbat." },
   { "lang": "bisaya", "affirmation": "Murag kape, ikaw ang akong reason nga energized ko pirmi." },
   { "lang": "bisaya", "affirmation": "Bisan unsa ka busy, naa gihapon kay VIP seat sa akong kasingkasing." },
@@ -96,7 +95,6 @@ const affirmations = [
   { "lang": "bisaya", "affirmation": "Ikaw ang akong daily reminder nga okay ra ang tanan." },
   { "lang": "bisaya", "affirmation": "Kung kalipay ka, sobra pa ka." },
   { "lang": "bisaya", "affirmation": "Ikaw ang akong paborito nga thought." },
-
   { "lang": "english", "affirmation": "You’re like my favorite app—I can’t go a day without opening you." },
   { "lang": "english", "affirmation": "You’re the WiFi my heart automatically connects to." },
   { "lang": "english", "affirmation": "If love were currency, you’d be my lifetime savings." },
@@ -117,7 +115,6 @@ const affirmations = [
   { "lang": "english", "affirmation": "If love was a game, you’d be my final boss and prize." },
   { "lang": "english", "affirmation": "You’re the best push notification ever." },
   { "lang": "english", "affirmation": "If happiness were downloadable, you’d be my favorite file." },
-
   { "lang": "ilonggo", "affirmation": "Indi ka man rice cooker, pero ikaw ang nagahatag init sang akon adlaw." },
   { "lang": "ilonggo", "affirmation": "Murag kape sa umaga, ikaw ang nagapukaw sang akon kalipay." },
   { "lang": "ilonggo", "affirmation": "Ikaw ang akon unlimited load sa gugma." },
@@ -145,19 +142,28 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api', (req, res) => {
+  res.status(200).json(affirmations)
+})
+
+app.get('/api/random', (req, res) => {
   const { lang } = req.query
   let arr = affirmations
   
   if (lang) {
     arr = filterArr(affirmations, lang)
   }
-
+  
   const randomIndex = returnRandomItem(arr)
   res.status(200).json(arr[randomIndex])
 })
 
+app.get('/generator', (req, res) => {
+  res.status(200).sendFile(path.join(process.cwd(), "generator.html"))
+})
+
+
 app.get('*', (req, res) => {
-  res.status(404).json({'error': 'not found'})
+  res.status(404).sendFile(path.join(process.cwd(), "404.html"))
 })
 
 app.listen(port, () => {

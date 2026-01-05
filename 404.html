@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 – Page Not Found</title>
+
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #ff5f8a;
+      --pink-soft: #ffe6ed;
+      --dark: #1f1f1f;
+      --gray: #666;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #ffe0ea, #fff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark);
+    }
+
+    .container {
+      text-align: center;
+      padding: 32px 24px;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+      color: var(--pink);
+      font-weight: 700;
+    }
+
+    p {
+      margin: 12px 0 24px;
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: var(--pink-soft);
+      color: var(--pink);
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255,95,138,0.25);
+    } 
+  </style>
+</head>
+
+<body>
+  <div class="container" data-aos="fade-up">
+    <h1>404</h1>
+    <p>
+      This page couldn't be found.<br>
+      Maybe it took a wrong turn.
+    </p>
+    <a href="/">Go back home</a>
+  </div>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>        
+    AOS.init({
+        duration: 800,
+        easing: 'ease-out-cubic',
+        once: true
+    });</script>
+</body>
+</html>
+

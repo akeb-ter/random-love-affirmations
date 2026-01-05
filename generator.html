@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Affirmation Generator</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #ff5f8a;
+      --pink-soft: #ffe6ed;
+      --dark: #1f1f1f;
+      --gray: #666;
+      --card: rgba(255,255,255,0.9);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe0ea, #fff);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* Splash */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ff5f8a, #ff8fb1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .heart {
+      width: 80px;
+      height: 80px;
+      background: white;
+      position: relative;
+      transform: rotate(-45deg);
+      animation: beat 1.2s ease-in-out infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before { top: -40px; left: 0; }
+    .heart::after { left: 40px; top: 0; }
+
+    #splash p {
+      color: white;
+      margin-top: 24px;
+      font-weight: 500;
+    }
+
+    @keyframes beat {
+      0%,50%,100% { transform: rotate(-45deg) scale(1); }
+      25%,75% { transform: rotate(-45deg) scale(1.1); }
+    }
+
+    /* App */
+    .container {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--pink);
+      margin-bottom: 6px;
+    }
+
+    p {
+      color: var(--gray);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    select, button {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--pink), #ff8fb1);
+      color: white;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255,95,138,0.35);
+    }
+
+    /* Result Card */
+    .result {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      position: relative;
+    }
+
+    .result.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .affirmation {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .meta {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    .copy {
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .copy:hover {
+      transform: scale(1.15);
+    }
+
+    .copied {
+      color: var(--pink);
+      font-weight: 600;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--pink);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Splash -->
+  <div id="splash">
+    <div class="heart"></div>
+    <p>Spreading love…</p>
+  </div>
+
+  <div class="container">
+    <h1>Affirmation Generator</h1>
+    <p>Generate a random love affirmation instantly.</p>
+
+    <div class="card">
+      <div class="controls">
+        <select id="mode">
+          <option value="random">Random (any language)</option>
+          <option value="lang">Random by language</option>
+        </select>
+
+        <select id="lang" disabled>
+          <option value="english">English</option>
+          <option value="filipino">Filipino</option>
+          <option value="bisaya">Bisaya</option>
+          <option value="ilonggo">Ilonggo</option>
+        </select>
+
+        <button id="generate">Generate</button>
+      </div>
+    </div>
+
+    <div id="result" class="card result">
+      <div id="text" class="affirmation"></div>
+      <div class="meta">
+        <span id="langLabel"></span>
+        <span id="copy" class="copy">📋</span>
+      </div>
+    </div>
+
+    <a href="/" class="back">← Back to home</a>
+  </div>
+
+  <script>
+    const splash = document.getElementById("splash");
+    const mode = document.getElementById("mode");
+    const langSelect = document.getElementById("lang");
+    const button = document.getElementById("generate");
+    const result = document.getElementById("result");
+    const text = document.getElementById("text");
+    const langLabel = document.getElementById("langLabel");
+    const copyBtn = document.getElementById("copy");
+
+    window.addEventListener("load", () => {
+      setTimeout(() => splash.classList.add("hidden"), 1800);
+    });
+
+    mode.addEventListener("change", () => {
+      langSelect.disabled = mode.value !== "lang";
+    });
+
+    button.addEventListener("click", async () => {
+      result.classList.remove("show");
+
+      let url = "/api/random";
+      if (mode.value === "lang") {
+        url += `?lang=${langSelect.value}`;
+      }
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        text.textContent = data.affirmation;
+        langLabel.textContent = data.lang.toUpperCase();
+        copyBtn.textContent = "📋";
+        copyBtn.classList.remove("copied");
+
+        setTimeout(() => result.classList.add("show"), 50);
+      } catch {
+        text.textContent = "Failed to fetch affirmation.";
+        langLabel.textContent = "";
+        result.classList.add("show");
+      }
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(text.textContent);
+        copyBtn.textContent = "✓ Copied";
+        copyBtn.classList.add("copied");
+      } catch {}
+    });
+  </script>
+
+</body>
+</html>

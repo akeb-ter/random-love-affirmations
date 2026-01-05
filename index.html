@@ -1,57 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <style>
-        body {
-            padding-inline: 50px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Affirmations API</title>
 
-        h1, .credit {
-            text-align: center;
-        }
-    </style>
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #ff5f8a;
+      --pink-soft: #ffe6ed;
+      --dark: #1f1f1f;
+      --gray: #666;
+      --card: rgba(255, 255, 255, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe0ea, #fff);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 32px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--pink);
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: var(--gray);
+      font-size: 0.95rem;
+    }
+
+    header a {
+      color: var(--pink);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 32px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: var(--dark);
+    }
+
+    p {
+      color: var(--gray);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .route {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: var(--pink-soft);
+      color: var(--pink);
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .route:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255,95,138,0.25);
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    select {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-top: 40px;
+    }
+
+    /* Desktop */
+    @media (min-width: 768px) {
+      .controls {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Random affirmations API(beta)</h1>
-    <p class="credit">made by <a href="http://github.com/Akeboshiii" target="_blank" rel="noopener noreferrer">akeb</a></p>
-    <p class="credit">open source, the <a href="https://github.com/Akeboshiii/random-love-affirmations" target="_blank" rel="noopener noreferrer">repo</a> can be find here.</p>
-    <p class="credit">sensya na kay nasanay bi ko mag ilonggo</p>
-    <hr>
+  <div class="container">
 
-    <h2>What is This?</h2>
-    <p>an JSON API that returns random words of affirmations. it comes with two properties which is "lang" and "affirmation"</p>
+    <header data-aos="fade-down">
+      <h1>Random Affirmations API</h1>
+      <p>
+        Made by
+        <a href="http://github.com/Akeboshiii" target="_blank" rel="noopener noreferrer">akeb</a>
+        • Open source on
+        <a href="https://github.com/Akeboshiii/random-love-affirmations" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </p>
+      <p>sensya na kay nasanay bi ko mag ilonggo 💗</p>
+    </header>
 
-    <h2>Routes:</h2>
-    <b><a href="/api" target="_blank" rel="noopener noreferrer">/api</a></b>
-    <p>returns a random affirmation</p>
-    <hr>
+    <section class="card" data-aos="fade-up">
+      <h2>What is this?</h2>
+      <p>
+        A simple JSON API that returns random affirmations.
+        Each response contains two fields: <b>lang</b> and <b>affirmation</b>.
+        Built for love, positivity, and easy integration.
+      </p>
+    </section>
 
-    <h2>Queries:</h2>
-    <b>?lang=[language/dialect]</b>
-    <p>returns a random affirmation for every language/dialect (only bisaya, english, filipino, and ilonggo are available)</p>
-    <select name="lang" id="lang">
-        <option value="english">english</option>
-        <option value="ilonggo">ilonggo</option>
-        <option value="bisaya">bisaya</option>
-        <option value="filipino">filipino</option>
-    </select>
-    <br>
-    <b><a id="apiLink" href="/api?lang=english" target="_blank" rel="noopener noreferrer">/api?lang=english</a></b>
-    <hr>
-</body>
-<script>
-    let link = document.querySelector('#apiLink')
-    let selection = document.querySelector('#lang')
+    <section class="card" data-aos="fade-up" data-aos-delay="100">
+      <h2>Route</h2>
+      <p>Get one random affirmation.</p>
+      <a class="route" href="/api" target="_blank" rel="noopener noreferrer">/api</a>
+    </section>
+
+    <section class="card" data-aos="fade-up" data-aos-delay="200">
+      <h2>Query</h2>
+      <p>Select a language or dialect.</p>
+
+      <div class="controls">
+        <select id="lang">
+          <option value="english">English</option>
+          <option value="ilonggo">Ilonggo</option>
+          <option value="bisaya">Bisaya</option>
+          <option value="filipino">Filipino</option>
+        </select>
+
+        <a id="apiLink" class="route" href="/api?lang=english" target="_blank" rel="noopener noreferrer">
+          /api?lang=english
+        </a>
+      </div>
+    </section>
+
+    <footer data-aos="fade-in">
+      Built with love • API beta
+    </footer>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out-cubic',
+      once: true
+    });
+
+    const link = document.getElementById('apiLink');
+    const selection = document.getElementById('lang');
 
     selection.addEventListener('change', () => {
-        if (selection.value) {
-            link.textContent = `/api?lang=${selection.value}`
-            link.setAttribute("href", `/api?lang=${selection.value}`)
-        }
-    })
-
-</script>
+      link.textContent = `/api?lang=${selection.value}`;
+      link.href = `/api?lang=${selection.value}`;
+    });
+  </script>
+</body>
 </html>

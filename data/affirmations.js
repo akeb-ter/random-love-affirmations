@@ -1,9 +1,3 @@
-import express from 'express'
-import fs from 'fs/promises'
-import path from 'path'
-const app = express()
-const port = 3000
-
 const affirmations = [
   { "lang": "filipino", "affirmation": "Ang puso ko ay parang kape—lagi kang nagpapasarap sa bawat umaga." },
   { "lang": "filipino", "affirmation": "Hindi man ako marunong magluto, ikaw pa rin ang pinaka-masarap na parte ng buhay ko." },
@@ -137,46 +131,4 @@ const affirmations = [
   { "lang": "ilonggo", "affirmation": "Kung taxi ka, indi ko gid pagpa-‘meter off’." }
 ]
 
-app.get('/', (req, res) => {
-  res.status(200).sendFile(path.join(process.cwd(), "index.html"))
-})
-
-app.get('/api', (req, res) => {
-  res.status(200).json(affirmations)
-})
-
-app.get('/api/random', (req, res) => {
-  const { lang } = req.query
-  let arr = affirmations
-  
-  if (lang) {
-    arr = filterArr(affirmations, lang)
-  }
-  
-  const randomIndex = returnRandomItem(arr)
-  res.status(200).json(arr[randomIndex])
-})
-
-app.get('/generator', (req, res) => {
-  res.status(200).sendFile(path.join(process.cwd(), "generator.html"))
-})
-
-
-app.get('*', (req, res) => {
-  res.status(404).sendFile(path.join(process.cwd(), "404.html"))
-})
-
-app.listen(port, () => {
-    console.log(`listening on port ${port}!`)
-})
-
-function returnRandomItem(arr) {
-  const len = arr.length
-  let randomIndex = Math.floor(Math.random() * len)
-  return randomIndex
-}
-
-function filterArr(arr, lang) {
-  let newArr = arr.filter(element => element.lang === lang)
-  return newArr
-}
+export default affirmations

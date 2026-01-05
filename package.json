@@ -8,13 +8,13 @@
     "affirmations",
     "love"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "author": "akeboshiii",
   "type": "module",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "dev": "vercel dev",
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "^4.21.2"

@@ -117,17 +117,3 @@ http://localhost:3000
 ```
 
 ---
-
-## 📄 License
-
-MIT License.  
-Use it, remix it, break it, improve it.
-
----
-
-## 💌 Author
-
-Made by **akeb**  
-GitHub: https://github.com/Akeboshiii
-
-Built with love, not pressure.
